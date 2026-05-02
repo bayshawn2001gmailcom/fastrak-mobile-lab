@@ -342,15 +342,60 @@ Pages 23, 306, 395, 564, 856 all had existing descriptions. No changes needed.
 
 ---
 
+## SEO Fixes — May 2, 2026 (Session 2) ✅
+
+### 21 Duplicate Posts Trashed — Sitemap Cleaned
+All duplicate (`-2`/`-3` suffix) posts removed from WordPress via DELETE REST API.
+Removed from XML sitemap immediately. Fixes "noindex page in sitemap" Ahrefs errors.
+
+Trashed IDs: 981, 955, 954, 953, 952, 951, 950, 949, 948, 947, 946, 916, 915, 902, 901, 1003, 973, 972, 970, 966, 967
+
+### 15 x 301 Redirects Created via Rank Math Per-Post API ✅
+Used `updateRedirection` endpoint with correct format:
+`objectID, objectType: 'post', hasRedirect: true, redirectionUrl, redirectionType: '301'`
+
+| Post ID | Redirect From | Redirect To |
+|---|---|---|
+| 981 | /legal-chain-of-custody-...-2/ | /legal-chain-of-custody-.../ |
+| 955 | /discreet-mobile-infidelity-...-2/ | /discreet-mobile-infidelity-.../ |
+| 954 | /mobile-dot-physicals-...-2/ | /mobile-dot-physicals-.../ |
+| 953 | /concierge-mobile-blood-draws-...-2/ | /concierge-mobile-blood-draws-.../ |
+| 952 | /mobile-respiratory-fit-testing-...-2/ | /mobile-respiratory-fit-testing-.../ |
+| 951 | /onsite-background-checks-...-2/ | /onsite-background-checks-.../ |
+| 950 | /mobile-gender-reveal-...-2/ | /mobile-gender-reveal-.../ |
+| 949 | /24-7-mobile-post-accident-...-2/ | /24-7-mobile-post-accident-.../ |
+| 948 | /legal-admissibility-...-2/ | /legal-admissibility-.../ |
+| 947 | /mobile-dot-drug-testing-...-2/ | /mobile-dot-drug-testing-.../ |
+| 946 | /onsite-corporate-flu-...-2/ | /onsite-corporate-flu-.../ |
+| 916 | /the-difference-between-...-2/ | /the-difference-between-.../ |
+| 915 | /aabb-accredited-...-2/ | /aabb-accredited-.../ |
+| 902 | /the-difference-between-...-3/ | /the-difference-between-.../ |
+| 901 | /non-invasive-prenatal-...-2/ | /non-invasive-prenatal-.../ |
+
+### Duplicate Meta Description Root Cause Identified
+Posts 1171–1175: `rank_math_description` was empty → Rank Math fell back to post excerpt.
+A second output source also used the excerpt → 2 meta description tags per page.
+**Fix applied:** Set `rank_math_description` explicitly + cleared excerpt on all 5 posts (seo_fix_excerpt.js).
+
+### Rank Math API Format Discoveries (for future sessions)
+- `updateMeta`: `{ objectID, objectType, meta: { key: value } }` (meta wrapper required)
+- `updateRedirection`: `{ objectID, objectType, hasRedirect, redirectionUrl, redirectionType }` (per-post redirect)
+- Trash posts: Use `DELETE /wp-json/wp/v2/posts/{id}` (POST with status:trash rejected)
+- `rank_math_description` not exposed via WP REST API meta — use Rank Math API or live HTML scrape
+
+---
+
 ## Next Steps — May 2026
 
 ### Immediate (wp-admin manual — see `wp_admin_manual_fixes.md`)
-- [ ] **301 redirects for 16 noindex posts in sitemap** → Rank Math → Redirections → Add 301 for each `-2`/`-3` slug → trash posts → clear sitemap cache
+- [x] ~~301 redirects for 16 noindex posts in sitemap~~ → **DONE** via API (15/15 created May 2)
+- [x] ~~Trash duplicate posts~~ → **DONE** 21 posts trashed May 2
 - [ ] **3XX redirect in sitemap** → audit sitemap_index.xml, find redirect URL, exclude from Rank Math sitemap
 - [ ] **Blog pagination noindex** → Rank Math → Titles & Meta → Posts → Pagination → Noindex ON
 - [ ] **Fix sitemap homepage duplicate** → Rank Math → Sitemap → exclude Page ID 23
-- [ ] **Fix `/services/` nav link** → Elementor homepage → update button to `/mobile-phlebotomy-services-atlanta/`
+- [ ] **Fix `/services/` nav link** → Elementor → Templates → Header (ID 28) → find and update nav link
 - [ ] **Page speed** → Install ShortPixel (image compression) + WP Rocket (caching)
+- [ ] **`/dna-testing-services-atlanta-ga-7/`** → Add standalone 301 in Rank Math → Redirections (post already trashed, no per-post redirect possible)
 
 ### Content & Link Building (Ongoing)
 - [ ] Google Business Profile optimization posts (weekly photos, service updates)
