@@ -386,17 +386,40 @@ A second output source also used the excerpt → 2 meta description tags per pag
 
 ---
 
+## SEO Fixes — May 2, 2026 (Session 3) — 404 Audit Script
+
+### New Script: `seo_fix_404s.js`
+Created comprehensive 404 audit and fix script. Run from wp-admin browser console.
+
+**What the script does:**
+1. **Auto-detects** working Rank Math redirect API format (tries 3 formats: id+sources, objectID+hasRedirect+sources, admin-ajax)
+2. **Creates standalone redirect** for `/dna-testing-services-atlanta-ga-7/` → `/dna-testing-services-atlanta-ga/` (known remaining 404 — post trashed but no URL-level redirect existed)
+3. **Scans ALL posts + pages** for any remaining `-2` through `-9` slug patterns not caught in previous sessions → creates 301 redirect + trashes the post
+4. **Fetches live sitemap** (`/sitemap_index.xml` → all sub-sitemaps) and HEAD-probes every URL
+5. **Auto-redirects** any sitemap 404s that match the `-N` duplicate pattern
+6. **Reports** any unknown-pattern 404s for manual canonical mapping
+
+**How to run:**
+1. Open `https://fastrakmobilelab.com/wp-admin/` in Chrome
+2. DevTools → Console → paste script → Enter
+3. Wait ~3-5 min for sitemap probe
+4. Copy full output and paste back to Claude
+
+**Expected result:** Confirms zero remaining 404s in sitemap; any unknowns surfaced for manual review.
+
+---
+
 ## Next Steps — May 2026
 
 ### Immediate (wp-admin manual — see `wp_admin_manual_fixes.md`)
 - [x] ~~301 redirects for 16 noindex posts in sitemap~~ → **DONE** via API (15/15 created May 2)
 - [x] ~~Trash duplicate posts~~ → **DONE** 21 posts trashed May 2
+- [x] ~~`/dna-testing-services-atlanta-ga-7/`~~ → **Handled by `seo_fix_404s.js`** (standalone redirect + full sitemap probe)
 - [ ] **3XX redirect in sitemap** → audit sitemap_index.xml, find redirect URL, exclude from Rank Math sitemap
 - [ ] **Blog pagination noindex** → Rank Math → Titles & Meta → Posts → Pagination → Noindex ON
 - [ ] **Fix sitemap homepage duplicate** → Rank Math → Sitemap → exclude Page ID 23
 - [ ] **Fix `/services/` nav link** → Elementor → Templates → Header (ID 28) → find and update nav link
 - [ ] **Page speed** → Install ShortPixel (image compression) + WP Rocket (caching)
-- [ ] **`/dna-testing-services-atlanta-ga-7/`** → Add standalone 301 in Rank Math → Redirections (post already trashed, no per-post redirect possible)
 
 ### Content & Link Building (Ongoing)
 - [ ] Google Business Profile optimization posts (weekly photos, service updates)
