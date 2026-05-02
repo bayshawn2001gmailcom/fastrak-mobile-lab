@@ -372,10 +372,11 @@ Used `updateRedirection` endpoint with correct format:
 | 902 | /the-difference-between-...-3/ | /the-difference-between-.../ |
 | 901 | /non-invasive-prenatal-...-2/ | /non-invasive-prenatal-.../ |
 
-### Duplicate Meta Description Root Cause Identified
+### Duplicate Meta Description — 5 Posts Fixed ✅
 Posts 1171–1175: `rank_math_description` was empty → Rank Math fell back to post excerpt.
 A second output source also used the excerpt → 2 meta description tags per page.
-**Fix applied:** Set `rank_math_description` explicitly + cleared excerpt on all 5 posts (seo_fix_excerpt.js).
+**Fix:** Set `rank_math_description` explicitly + cleared excerpt on all 5 posts.
+**Verified live:** Post 1171 ✅ 1 tag | Post 1172 ✅ 1 tag. All 5 confirmed 200 OK.
 
 ### Rank Math API Format Discoveries (for future sessions)
 - `updateMeta`: `{ objectID, objectType, meta: { key: value } }` (meta wrapper required)
