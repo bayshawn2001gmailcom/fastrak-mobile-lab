@@ -17,8 +17,8 @@
  */
 (async () => {
   // ── USER CONFIG — fill these in before running ──────────────────────────
-  const PHONE_E164 = '+17705551234';           // ← replace with real number
-  const GBP_URL    = 'https://g.page/fastrak-mobile-lab'; // ← replace with real GBP URL
+  const PHONE_E164 = '+16785625244';           // (678) 562-5244
+  const GBP_URL    = 'https://g.page/fastrak-mobile-lab'; // ← replace with real GBP URL if different
   // ────────────────────────────────────────────────────────────────────────
 
   const nonce  = wpApiSettings.nonce;

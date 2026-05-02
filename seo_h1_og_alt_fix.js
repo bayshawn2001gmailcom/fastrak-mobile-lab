@@ -15,7 +15,7 @@
  */
 (async () => {
   // ── USER CONFIG ─────────────────────────────────────────────────────────
-  const OG_IMAGE_URL = 'https://fastrakmobilelab.com/wp-content/uploads/fastrak-og-default.jpg'; // ← replace
+  const OG_IMAGE_URL = 'https://fastrakmobilelab.com/wp-content/uploads/fastrak-og-default.jpg'; // confirm filename in WP Media Library
   // ────────────────────────────────────────────────────────────────────────
 
   const nonce  = wpApiSettings.nonce;
