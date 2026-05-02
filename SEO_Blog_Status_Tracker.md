@@ -316,13 +316,33 @@ Remaining: blog page title (fixed), blog pagination titles (require Rank Math ad
 
 ---
 
-## Next Steps — May 2026
+## SEO Fixes — May 2, 2026 ✅
 
-### Immediate (API — need WordPress nonce)
-- [ ] **26 meta descriptions too long** → run `python seo_fix_may2026.py --fix meta-long --nonce <NONCE>`
-- [ ] **11 missing meta descriptions** → run `python seo_fix_may2026.py --fix meta-missing --nonce <NONCE>`
-- [ ] **6 duplicate meta description tags** → run `python seo_fix_may2026.py --fix audit-dups --nonce <NONCE>`
-- [ ] **Body content redirect links** → run `python seo_fix_may2026.py --fix redirects --nonce <NONCE>`
+### Meta Descriptions Too Long — 39 Pages Fixed (seo_fix_v3.js)
+
+Live HTML scan found 39 oversized descriptions (Ahrefs only flagged 26 — 13 more discovered).
+All trimmed to ≤155 chars via Rank Math `updateMeta` API with correct `meta:{}` wrapper format.
+
+| Post IDs Fixed | Range Before | After |
+|---|---|---|
+| 1175, 1173, 1172, 1171, 1148, 1147, 1142 | 156–168 chars | ≤154 chars |
+| 984, 965, 957, 956, 955, 951, 949, 947 | 156–161 chars | ≤154 chars |
+| 940, 939, 938, 937, 936, 935, 934, 933, 932, 931 | 198–205 chars | ≤155 chars |
+| 915, 898, 897, 888, 885, 862, 861, 859 | 156–160 chars | ≤155 chars |
+| 839, 833, 829, 820, 816, 805 | 236 chars (template default) | 119 chars |
+
+**Note on 236-char posts (839, 833, 829, 820, 816, 805):** These had a truncated template description — trimmed cleanly but should be reviewed for quality in a future pass.
+
+### Meta Descriptions on Key Pages — All Already Set ✅
+Pages 23, 306, 395, 564, 856 all had existing descriptions. No changes needed.
+
+### Redirect Links in Elementor — Requires Manual Fix ⚠️
+`/services/` (homepage) and `/mobile-drug-dna-testing-atlanta/` (page 395) are in Elementor widget data, not raw content. REST API does not expose `_elementor_data` for editing.
+**Fix:** Edit each page in Elementor editor → find the button/link → update the URL manually.
+
+---
+
+## Next Steps — May 2026
 
 ### Immediate (wp-admin manual — see `wp_admin_manual_fixes.md`)
 - [ ] **301 redirects for 16 noindex posts in sitemap** → Rank Math → Redirections → Add 301 for each `-2`/`-3` slug → trash posts → clear sitemap cache
