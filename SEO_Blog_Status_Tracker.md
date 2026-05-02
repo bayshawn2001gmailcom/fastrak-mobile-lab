@@ -288,17 +288,56 @@ Remaining: blog page title (fixed), blog pagination titles (require Rank Math ad
 
 ---
 
-## Next Steps
-- [ ] **Fix `/services/` nav link** — homepage still has `href="/services/"` (redirect). Find in Elementor homepage template and update to `/mobile-phlebotomy-services-atlanta/`
-- [ ] **Blog pagination noindex** — `/blog/page/2/` through `/blog/page/10/` share duplicate titles. Set noindex on paginated archives via **Rank Math → Titles & Meta → Posts → Pagination** (requires wp-admin UI)
-- [ ] **Fix sitemap homepage duplicate** — Rank Math outputs `/` twice. Exclude page ID 23 from sitemap via Rank Math UI
-- [ ] **301 redirects for 15 noindex duplicate posts** — Create URL-level 301s in Rank Math Redirect Manager (wp-admin UI)
-- [ ] Google Business Profile optimization posts
-- [ ] Physician referral portal page build
-- [ ] Submit sitemap in Google Search Console
+---
+
+## Ahrefs Audit — May 1, 2026 (Screenshot Review)
+
+**Health Score:** 90/100 (up from 87 in April ✅)
+**Crawled URLs:** 236 (168 internal, 68 resources)
+**Total Issues:** 521 — Errors: 23 | Warnings: 217 | Notices: 281
+**URLs with errors:** 23 of 236 (down from higher in April)
+
+### Top Issues Still Active
+
+| Issue | Count | Type | Fix Location |
+|---|---|---|---|
+| Noindex page in sitemap | 16 | Error | wp-admin: Rank Math Redirect Manager → 301 + trash posts |
+| Multiple meta description tags | 6 | Error | API fix (need nonce) |
+| 3XX redirect in sitemap | 1 | Error | wp-admin: Rank Math Sitemap |
+| Page has links to redirect | 111 | Warning | API fix (body content) + wp-admin (nav) |
+| Noindex page | 39 | Warning | Expected — duplicate posts intentionally noindexed |
+| Meta description too long | 26 | Warning | API fix (need nonce) — auto-trim to 155 chars |
+| 3XX redirect | 18 | Warning | wp-admin: Rank Math Redirections audit |
+| Meta description missing (not indexable) | 11 | Warning | API fix (need nonce) — auto-generate |
+| Page has no outgoing links (not indexable) | 4 | Warning | wp-admin: add contextual links in Elementor |
+
+**Fix scripts created:** `seo_fix_may2026.py` — run with `--nonce <YOUR_NONCE>` after getting nonce from wp-admin console.
+**Manual fix guide:** `wp_admin_manual_fixes.md` — step-by-step for wp-admin-only issues.
+
+---
+
+## Next Steps — May 2026
+
+### Immediate (API — need WordPress nonce)
+- [ ] **26 meta descriptions too long** → run `python seo_fix_may2026.py --fix meta-long --nonce <NONCE>`
+- [ ] **11 missing meta descriptions** → run `python seo_fix_may2026.py --fix meta-missing --nonce <NONCE>`
+- [ ] **6 duplicate meta description tags** → run `python seo_fix_may2026.py --fix audit-dups --nonce <NONCE>`
+- [ ] **Body content redirect links** → run `python seo_fix_may2026.py --fix redirects --nonce <NONCE>`
+
+### Immediate (wp-admin manual — see `wp_admin_manual_fixes.md`)
+- [ ] **301 redirects for 16 noindex posts in sitemap** → Rank Math → Redirections → Add 301 for each `-2`/`-3` slug → trash posts → clear sitemap cache
+- [ ] **3XX redirect in sitemap** → audit sitemap_index.xml, find redirect URL, exclude from Rank Math sitemap
+- [ ] **Blog pagination noindex** → Rank Math → Titles & Meta → Posts → Pagination → Noindex ON
+- [ ] **Fix sitemap homepage duplicate** → Rank Math → Sitemap → exclude Page ID 23
+- [ ] **Fix `/services/` nav link** → Elementor homepage → update button to `/mobile-phlebotomy-services-atlanta/`
+- [ ] **Page speed** → Install ShortPixel (image compression) + WP Rocket (caching)
+
+### Content & Link Building (Ongoing)
+- [ ] Google Business Profile optimization posts (weekly photos, service updates)
+- [ ] Physician referral portal page build (Phase 5)
+- [ ] Submit updated sitemap in Google Search Console
 - [ ] Link building: GBP listing, local directories, physician partner links (**DR 0.6 is the #1 ranking blocker**)
-- [ ] Page speed: ShortPixel image compression + WP Rocket caching
-- [ ] Clear page/CDN cache after today's changes so Google crawls fresh content
+- [ ] Clear page/CDN cache after all fixes so Google crawls fresh content
 
 ---
 
