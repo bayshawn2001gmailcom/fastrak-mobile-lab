@@ -1,0 +1,53 @@
+# Fastrak Mobile Lab — Weekly SEO Automation
+#
+# Required GitHub Secrets (Settings → Secrets and variables → Actions → New repository secret):
+#   WP_USER         — WordPress username (e.g. "admin" or your WP login)
+#   WP_APP_PASSWORD — WordPress Application Password (generate at Users → Profile → Application Passwords)
+#   WP_SITE         — Full site URL with no trailing slash (e.g. "https://fastrakmobilelab.com")
+#
+# The workflow runs every Sunday at 12:00 UTC (8:00 AM Eastern).
+# Reports are committed back to the repo under fastrakmobilelab/seo_reports/.
+
+name: Weekly SEO Audit
+
+on:
+  schedule:
+    - cron: "0 12 * * 0"
+  workflow_dispatch:
+
+jobs:
+  seo-audit:
+    name: Run SEO Automation
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests python-dotenv
+
+      - name: Run SEO automation script
+        env:
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+        run: python fastrakmobilelab/seo_auto.py
+
+      - name: Commit SEO report if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add fastrakmobilelab/seo_reports/
+          git diff --quiet --cached || git commit -m "SEO auto-report $(date +%Y-%m-%d) [skip ci]"
+          git push
