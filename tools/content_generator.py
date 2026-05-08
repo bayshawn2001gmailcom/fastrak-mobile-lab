@@ -28,6 +28,7 @@ Type: Mobile service area business — we travel to the client. NO physical addr
 Services: Mobile phlebotomy, in-home blood draw, drug testing, DNA specimen collection, mobile lab services
 Target customers: Patients who can't travel to a lab, elderly, homebound, busy professionals, corporate clients
 Differentiators: Licensed phlebotomists, fast turnaround, we come to YOU (home, office, or facility), serves metro Atlanta and surrounding Georgia communities
+Insurance note: Lab processing fees are covered by most major insurance plans. The mobile convenience/travel fee is a SEPARATE charge NOT covered by insurance. Never imply the mobile service itself is covered by insurance.
 CTA: "Book your mobile blood draw today" — link to contact/booking page
 Tone: Professional, trustworthy, reassuring. Not overly clinical. Emphasize patient convenience and the fact that we travel to them.
 IMPORTANT: Never mention a physical office address. This is a service-area business. Always say "we come to you" or "we travel to your location."

@@ -48,7 +48,7 @@ Business context:
 - We serve {city}, {county}, GA and surrounding metro Atlanta communities
 - Licensed, certified phlebotomists
 - Fast results (most within 24-72 hours)
-- Covered by most major insurance plans
+- Lab processing fees are covered by most major insurance plans; a separate mobile convenience fee is NOT covered by insurance
 - CTA: "Book your mobile blood draw" — link placeholder: [BOOKING_LINK]
 
 Write a location page for: Mobile Phlebotomy in {city}, GA
@@ -58,7 +58,7 @@ Requirements:
 - First paragraph: hook + primary keyword + "we come to you" framing
 - H2 #1: "How Mobile Phlebotomy Works in {city}" — explain the process (schedule, we arrive, draw blood, send to lab)
 - H2 #2: "Who We Serve in {city}" — patients, elderly, homebound, professionals, corporate clients
-- H2 #3: "Why {city} Residents Choose Fastrak Mobile Lab" — trust signals, speed, insurance, licensed staff
+- H2 #3: "Why {city} Residents Choose Fastrak Mobile Lab" — trust signals, speed, licensed staff, lab results covered by insurance (but clarify the mobile fee is separate)
 - FAQ section (H2: "Frequently Asked Questions") with 3 questions relevant to {city} residents
 - Closing CTA paragraph with booking link placeholder
 - Word count: 600-750 words
