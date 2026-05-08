@@ -24,11 +24,13 @@ genai.configure(api_key=GEMINI_API_KEY)
 
 BUSINESS_CONTEXT = """
 Business: Fastrak Mobile Lab
-Services: Mobile phlebotomy, in-home blood draw, specimen collection, mobile lab services
-Target customers: Patients who can't travel to a lab, elderly, homebound, busy professionals
-Differentiators: Licensed phlebotomists, fast turnaround, comes to you, serves the Atlanta metro area and surrounding Georgia communities
+Type: Mobile service area business — we travel to the client. NO physical address should ever appear in content.
+Services: Mobile phlebotomy, in-home blood draw, drug testing, DNA specimen collection, mobile lab services
+Target customers: Patients who can't travel to a lab, elderly, homebound, busy professionals, corporate clients
+Differentiators: Licensed phlebotomists, fast turnaround, we come to YOU (home, office, or facility), serves metro Atlanta and surrounding Georgia communities
 CTA: "Book your mobile blood draw today" — link to contact/booking page
-Tone: Professional, trustworthy, reassuring. Not overly clinical. Speak to the patient's convenience and peace of mind.
+Tone: Professional, trustworthy, reassuring. Not overly clinical. Emphasize patient convenience and the fact that we travel to them.
+IMPORTANT: Never mention a physical office address. This is a service-area business. Always say "we come to you" or "we travel to your location."
 """
 
 TEMPLATES = {
@@ -58,11 +60,14 @@ Requirements:
 Requirements:
 - H1: "[Service] in [City/Area]" format using the primary keyword
 - Mention the specific city/area multiple times naturally
-- Include local trust signals and specifics (nearby landmarks/neighborhoods where relevant)
-- 2 H2s covering: what to expect, who benefits from mobile phlebotomy
+- Frame everything around "we come to you in [city]" — this is a service-area business with NO physical office
+- NEVER mention a business address or office location
+- Include local trust signals: mention the city/area specifically, licensed professionals, fast results
+- Reference nearby neighborhoods or landmarks where natural to show local familiarity
+- 2 H2s: one covering "How It Works" (we travel to you), one covering who benefits
 - CTA to book
 - Word count: 500–700 words
-- Output clean HTML
+- Output clean HTML (h1, h2, p, ul tags only)
 """,
     "faq": """Write an SEO-optimized FAQ page for a mobile phlebotomy company.
 Requirements:
