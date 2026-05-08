@@ -43,6 +43,12 @@ TRACKED_KEYWORDS = [
     "home phlebotomy service atlanta",
     "mobile phlebotomy snellville ga",
     "mobile phlebotomy lawrenceville ga",
+    # Near-me cluster — GSC shows positions 2-9 with low impressions (GBP gap)
+    "mobile phlebotomist near me",
+    "phlebotomist near me",
+    "mobile phlebotomy services near me",
+    "mobile lab services near me",
+    "mobile lab near me",
 ]
 
 AHREFS_BASE = "https://api.ahrefs.com/v3"

@@ -47,7 +47,14 @@ jobs:
       - name: Run competitor tracker
         env:
           WP_SITE: ${{ secrets.WP_SITE }}
+          AHREFS_API_KEY: ${{ secrets.AHREFS_API_KEY }}
         run: python tools/competitor_tracker.py --output seo_reports/
+        continue-on-error: true
+
+      - name: Run GSC report
+        env:
+          AHREFS_API_KEY: ${{ secrets.AHREFS_API_KEY }}
+        run: python tools/gsc_ahrefs.py --days 30 --output seo_reports/
         continue-on-error: true
 
       - name: Commit reports if changed
