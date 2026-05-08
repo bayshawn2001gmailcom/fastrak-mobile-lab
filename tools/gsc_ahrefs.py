@@ -53,8 +53,10 @@ def fetch_gsc_keywords(days):
         print("WARNING: AHREFS_API_KEY not set — skipping GSC pull.", file=sys.stderr)
         return []
 
-    end_date = date.today() - timedelta(days=3)  # GSC ~3 day lag
-    start_date = end_date - timedelta(days=days)
+    end_date = date.today()
+    # Always anchor to 2026-01-01 — that's when GSC data begins for this site.
+    # A rolling window misses historical data on low-traffic sites.
+    start_date = max(date(2026, 1, 1), end_date - timedelta(days=days))
 
     try:
         resp = requests.get(
@@ -80,8 +82,8 @@ def fetch_gsc_pages(days):
     if not headers:
         return []
 
-    end_date = date.today() - timedelta(days=3)
-    start_date = end_date - timedelta(days=days)
+    end_date = date.today()
+    start_date = max(date(2026, 1, 1), end_date - timedelta(days=days))
 
     try:
         resp = requests.get(
