@@ -1,0 +1,131 @@
+# robots.txt — FASTRAK Mobile Lab (fastrakmobilelab.com)
+# Updated: May 2026
+#
+# PURPOSE: Prevent crawl budget waste on non-content URLs, block duplicate
+# content paths, and protect admin endpoints — without blocking any
+# indexable service or city pages.
+#
+# HOW TO DEPLOY: Upload this file to your WordPress root directory
+# (/public_html/robots.txt or equivalent). Verify at:
+#   https://fastrakmobilelab.com/robots.txt
+# Then submit sitemap in Google Search Console.
+
+User-agent: *
+
+# ── WordPress admin and login (security + crawl budget) ──────────────────
+Disallow: /wp-admin/
+Disallow: /wp-login.php
+Disallow: /xmlrpc.php
+Disallow: /wp-register.php
+
+# ── WordPress internals (no indexable content) ───────────────────────────
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/cache/
+Disallow: /wp-content/themes/
+
+# ── Duplicate content: search result pages ───────────────────────────────
+Disallow: /?s=
+Disallow: /search/
+
+# ── Duplicate content: feed URLs (Google doesn't need RSS for ranking) ───
+Disallow: /feed/
+Disallow: /comments/feed/
+Disallow: /*/feed/
+Disallow: /*/feed/rss/
+
+# ── Duplicate content: WordPress print/trackback/attachment pages ─────────
+Disallow: /*/trackback/
+Disallow: /*/attachment/
+
+# ── Duplicate content: date-based archive pages ──────────────────────────
+# (Rank Math handles canonical tags but blocking saves crawl budget)
+Disallow: /20*/
+Disallow: /?year=
+Disallow: /?monthnum=
+Disallow: /?day=
+
+# ── Duplicate content: author archive pages ──────────────────────────────
+Disallow: /author/
+
+# ── Duplicate content: tag archive pages (if not SEO-relevant) ───────────
+# Remove this line if you have custom SEO-optimized tag pages.
+Disallow: /tag/
+
+# ── Duplicate content: paginated blog archives past page 2 ───────────────
+# Page 1 and 2 may carry equity; deep pagination has no value.
+Disallow: /blog/page/3/
+Disallow: /blog/page/4/
+Disallow: /blog/page/5/
+Disallow: /blog/page/6/
+Disallow: /blog/page/7/
+Disallow: /blog/page/8/
+Disallow: /blog/page/9/
+Disallow: /blog/page/10/
+
+# ── Query string duplication traps ───────────────────────────────────────
+Disallow: /*?replytocom=
+Disallow: /*?p=
+Disallow: /*?page_id=
+Disallow: /*?preview=true
+Disallow: /*?elementor-preview=
+
+# ── Staging/test content (add if your staging is on a subdirectory) ───────
+# Disallow: /staging/
+# Disallow: /test/
+# Disallow: /dev/
+
+# ── Allow Google to crawl admin-ajax (required for some WP functionality) ─
+Allow: /wp-admin/admin-ajax.php
+
+# ── Allow image assets for Google Image Search ───────────────────────────
+Allow: /wp-content/uploads/
+
+# ── Sitemap location ─────────────────────────────────────────────────────
+Sitemap: https://fastrakmobilelab.com/sitemap_index.xml
+
+
+# ── Bot-specific rules ───────────────────────────────────────────────────
+
+# Allow Googlebot full access to all public content
+User-agent: Googlebot
+Allow: /
+
+# Allow Googlebot-Image to index content images
+User-agent: Googlebot-Image
+Allow: /wp-content/uploads/
+
+# Block AI training crawlers that do not contribute to search traffic
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Omgili
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+# Allow Bingbot (Bing Webmaster Tools coverage)
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 5
+
+# Allow DuckDuckBot
+User-agent: DuckDuckBot
+Allow: /
+
+# Allow PerplexityBot (currently citing the site — maintain access)
+User-agent: PerplexityBot
+Allow: /
