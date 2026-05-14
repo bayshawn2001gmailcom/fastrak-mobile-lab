@@ -2,9 +2,12 @@
 Batch generate and post 10 new city landing pages as WordPress drafts.
 Run: python tools/batch_city_pages.py
 """
-import os, sys, time, base64, requests
+import os, sys, time, base64, re, requests
 from pathlib import Path
 from dotenv import load_dotenv
+
+BOOKING_URL = "https://api.leadconnectorhq.com/widget/bookings/stephanie-fleming-personal-calendar-kc9dxb7pt"
+BROKEN_LINK_PATTERN = re.compile(r'href="<a href=')
 
 load_dotenv()
 load_dotenv(Path.home() / ".env", override=False)
@@ -49,7 +52,8 @@ Business context:
 - Licensed, certified phlebotomists
 - Fast results (most within 24-72 hours)
 - Lab processing fees are covered by most major insurance plans; a separate mobile convenience fee is NOT covered by insurance
-- CTA: "Book your mobile blood draw" — link placeholder: [BOOKING_LINK]
+- CTA booking URL (use this exact URL, do NOT wrap it in another anchor tag):
+  https://api.leadconnectorhq.com/widget/bookings/stephanie-fleming-personal-calendar-kc9dxb7pt
 
 Write a location page for: Mobile Phlebotomy in {city}, GA
 
@@ -60,11 +64,22 @@ Requirements:
 - H2 #2: "Who We Serve in {city}" — patients, elderly, homebound, professionals, corporate clients
 - H2 #3: "Why {city} Residents Choose Fastrak Mobile Lab" — trust signals, speed, licensed staff, lab results covered by insurance (but clarify the mobile fee is separate)
 - FAQ section (H2: "Frequently Asked Questions") with 3 questions relevant to {city} residents
-- Closing CTA paragraph with booking link placeholder
+- Closing CTA: a <p> tag containing a single <a href="https://api.leadconnectorhq.com/widget/bookings/stephanie-fleming-personal-calendar-kc9dxb7pt"><strong>Book Your Mobile Blood Draw</strong></a> — output the href URL literally, no nested tags
 - Word count: 600-750 words
-- Output clean HTML only (h1, h2, h3, p, ul, li tags — no divs, no inline styles, no markdown)
+- Output clean HTML only (h1, h2, h3, p, ul, li, ol, a, strong tags — no divs, no inline styles, no markdown)
 - Do NOT include <html>, <head>, or <body> tags — just the content tags
 """
+
+
+def fix_booking_links(html: str) -> str:
+    """Replace any malformed/nested anchor CTA with a clean booking link."""
+    # Fix Gemini's double-anchor pattern: href="<a href="URL">text</a>"
+    html = BROKEN_LINK_PATTERN.sub('href="', html)
+    # Ensure the booking URL is present; append CTA if missing
+    if BOOKING_URL not in html:
+        cta = f'\n<p><a href="{BOOKING_URL}"><strong>Book Your Mobile Blood Draw</strong></a></p>'
+        html = html.rstrip() + cta
+    return html
 
 
 def generate_content(city, county, retries=4):
@@ -78,7 +93,7 @@ def generate_content(city, county, retries=4):
                 text = text.split("\n", 1)[1]
                 if text.endswith("```"):
                     text = text.rsplit("```", 1)[0]
-            return text.strip()
+            return fix_booking_links(text.strip())
         except Exception as e:
             if "429" in str(e) and attempt < retries - 1:
                 wait = 30 * (attempt + 1)

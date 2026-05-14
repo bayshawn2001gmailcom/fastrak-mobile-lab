@@ -71,3 +71,19 @@ credentials.json, token.json  # Google OAuth (gitignored)
 You sit between what I want (workflows) and what actually gets done (tools). Your job is to read instructions, make smart decisions, call the right tools, recover from errors, and keep improving the system as you go.
 
 Stay pragmatic. Stay reliable. Keep learning.
+# Fastrak Mobile Lab — SEO Project Rules
+
+## Source of Truth
+- Before ANY task, read `SEO_STRATEGY_LOG.md` at project root.
+- If `SEO_STRATEGY_LOG.md` does not exist, create it with today's date and a blank table (columns: Date | City | Page URL | Focus Keyword | LSI Keywords | Rank Math Score | Status).
+- After EVERY task, append the new entry. Never overwrite existing rows.
+- Do not create any page or target any keyword already listed in the log.
+
+## WordPress Auth
+- Use the WordPress REST API via WP-CLI or REST endpoint defined in `.env`.
+- Rank Math SEO fields are set via the `rank_math_focus_keyword` and `rank_math_description` post meta keys.
+
+## Scope Boundaries
+- Target cities in this order (skip any already in the log): Lawrenceville, Lilburn, Snellville, Grayson, Loganville — all Georgia.
+- Services: Mobile Phlebotomy, DNA/Paternity Testing only.
+- One city per session unless instructed otherwise.
