@@ -295,6 +295,51 @@ COMBO_PAGES = [
 
 ALL_PAGES = CITY_PAGES + COMBO_PAGES
 
+# Maps display name (exactly as used in nearby[] arrays) → page ID
+DISPLAY_TO_ID = {
+    "Snellville, GA":       1248,
+    "Lawrenceville, GA":    1256,
+    "Duluth, GA":           1250,
+    "Lilburn, GA":          1334,
+    "Norcross, GA":         1258,
+    "Buford, GA":           1328,
+    "Sugar Hill, GA":       1333,
+    "Suwanee, GA":          1332,
+    "Conyers, GA":          1261,
+    "Buckhead, Atlanta":    1106,
+    "Decatur, GA":          1108,
+    "Marietta, GA":         1110,
+    "Midtown Atlanta":      1107,
+    "Sandy Springs, GA":    1109,
+    "Avondale Estates, GA": 1330,
+    "Clarkston, GA":        1335,
+    "Smyrna, GA":           1331,
+    "Stone Mountain, GA":   1329,
+    "Tucker, GA":           1260,
+    "Grayson, GA":          1382,
+    "Loganville, GA":       1383,
+}
+
+CITY_SLUG_MAP: dict[str, str] = {}   # populated by build_slug_map() at startup
+
+
+def build_slug_map() -> dict[str, str]:
+    """Query WP REST API for each city page and return {display_name: relative_path}."""
+    result = {}
+    for display, pid in DISPLAY_TO_ID.items():
+        try:
+            r = requests.get(
+                f"{WP_SITE}/wp-json/wp/v2/pages/{pid}?_fields=link",
+                headers=HJ, timeout=10,
+            )
+            if r.ok:
+                link = r.json().get("link", "")
+                path = link.replace(WP_SITE, "").rstrip("/") + "/"
+                result[display] = path
+        except Exception:
+            pass
+    return result
+
 
 # ── CSS (shared across all pages) ─────────────────────────────────────────────
 def shared_css(page_id):
@@ -348,8 +393,9 @@ def shared_css(page_id):
 .fml .diff-card h3{{font-size:.97rem;font-weight:700;color:#07304f;margin-bottom:8px;font-family:'Montserrat',sans-serif}}
 .fml .diff-card p{{font-size:.87rem;color:#555;line-height:1.7}}
 .fml .cities-grid{{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}}
-.fml .city-pill{{background:#fff;border:1.5px solid #ccdce8;border-radius:30px;padding:9px 18px;font-size:.9rem;font-weight:600;color:#0d4a7a;display:flex;align-items:center;gap:8px;font-family:'Montserrat',sans-serif}}
+.fml .city-pill{{background:#fff;border:1.5px solid #ccdce8;border-radius:30px;padding:9px 18px;font-size:.9rem;font-weight:600;color:#0d4a7a;display:flex;align-items:center;gap:8px;font-family:'Montserrat',sans-serif;text-decoration:none}}
 .fml .city-pill::before{{content:'';width:7px;height:7px;background:#0db8a5;border-radius:50%;flex-shrink:0}}
+.fml a.city-pill:hover{{background:#e8f4fc;border-color:#0d4a7a;color:#07304f}}
 .fml .steps{{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:48px;position:relative}}
 .fml .steps::before{{content:'';position:absolute;top:27px;left:calc(16.6% + 14px);right:calc(16.6% + 14px);height:2px;background:#dce8f0;z-index:0}}
 .fml .step{{text-align:center;padding:0 20px;position:relative;z-index:1}}
@@ -398,7 +444,10 @@ def build_city_html(p):
         service_label = "Mobile Lab Services"
 
     nearby_pills = "\n      ".join(
-        f'<span class="city-pill">{c}</span>' for c in nearby
+        f'<a class="city-pill" href="{CITY_SLUG_MAP[c]}">{c}</a>'
+        if c in CITY_SLUG_MAP else
+        f'<span class="city-pill">{c}</span>'
+        for c in nearby
     )
 
     css = shared_css(p["id"])
@@ -629,6 +678,10 @@ def deploy(p):
 
 # ── Run ───────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
+    print("Fetching city slugs from WordPress...")
+    CITY_SLUG_MAP.update(build_slug_map())
+    print(f"Found {len(CITY_SLUG_MAP)} linkable city slugs\n")
+
     ok, fail = 0, 0
     for p in ALL_PAGES:
         print(f"\n[{p['id']}] {p['city']} — {p['focus_kw']}")
